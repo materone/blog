@@ -38,9 +38,8 @@ app.get('/', function(req, res){
 })
 
 app.get('/blog/new', function(req, res) {
-    res.render('blog_new.jade', { locals: {
+    res.render('blog_new.jade', { 
         title: 'New Post'
-    }
     });
 });
 
@@ -56,10 +55,9 @@ app.post('/blog/new', function(req, res){
 app.get('/blog/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
         res.render('blog_show.jade',
-        { locals: {
+        { 
             title: article.title,
             article:article
-        }
         });
     });
 });
