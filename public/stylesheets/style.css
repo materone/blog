@@ -41,14 +41,17 @@ h1 {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  width: 320px;
+  width: 490px;
+}
+.article .title {
+  margin-top: 30px;
 }
 .article .created_at {
   display: none;
 }
 .article input[type =text] {
   width: 490px;
-  margin-left: 16px;
+  text-align: left;
 }
 .article input[type =button],
 .article input[type =submit] {
@@ -63,7 +66,13 @@ h1 {
   background-color: #ffa;
   white-space: pre-wrap;
 }
+.article .person {
+  background-color: #8fa;
+  forgroud-color: #345;
+  font-size: 18px;
+}
 .article .comment {
+  margin-top: 8px;
   background-color: #1fa;
   white-space: pre-wrap;
 }
