@@ -45,11 +45,14 @@ h1 {
   width: 490px;
 }
 .article .title {
-  margin-top: 30px;
+  margin-top: 20px;
+  font-size: 28px;
+  text-align: center;
 }
 .article .created_at {
   background-color: #afa;
   white-space: pre-wrap;
+  text-align: center;
 }
 .article input[type =text] {
   width: 490px;
