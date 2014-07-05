@@ -1,12 +1,19 @@
 extend layout
 
 block content
-    h1= title
-    a(href="/blog/new")!= "New"
+  h1= title
+  a(href="/blog/new")!= "New"
+  form( method="post" enctype="multipart/form-data")
     #articles
       - each article in articles
         div.article
-            div.title 
-              a(href="/blog/"+article._id.toHexString())!= article.title
-            div.created_at= article.created_at
-            div.body= article.body
+          div.title 
+            table
+              tr
+                td(width="99%")
+                  a(href="/blog/"+article._id.toHexString())!= article.title
+                td(width="1%" align="right")
+                  input(type="checkbox", id="delart" value=article._id.toHexString()) 
+          div.created_at= article.created_at
+          div.body= article.body
+      input(type="submit",name="Delete",value="Delete",id="delbtn",)
