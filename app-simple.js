@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 //for upload
 var multiparty = require('multiparty');
 var format = require('util').format;
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -98,6 +99,10 @@ app.post('/blog/new', function(req, res) {
     image.size = 0;
     part.on('data', function(buf) {
       image.size += buf.length;
+      var newPath = __dirname + "/uploads/"+part.filename;
+      fs.writeFile(newPath, buf, function(err) {
+        console.log(err);
+      });
     });
   });
 
