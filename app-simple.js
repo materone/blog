@@ -99,11 +99,23 @@ app.post('/blog/new', function(req, res) {
     image.size = 0;
     part.on('data', function(buf) {
       image.size += buf.length;
-      var newPath = __dirname + "/uploads/"+part.filename;
-      fs.writeFile(newPath, buf, function(err) {
-        console.log(err);
-      });
+      console.log('iii:'+buf.length);
+      //var newPath = __dirname + "/uploads/"+part.filename;
+      //fs.writeFile(newPath, buf, function(err) {
+      //  console.log(err);
+      //});
     });
+  });
+
+  // listen on part event for image file
+  form.on('file', function(name,file) {
+    console.log(name);
+    console.log(file.path);
+    console.log(file.originalFilename);
+    console.log(file.size);
+    var saveTo = __dirname + "/uploads/"+file.originalFilename;
+    fs.renameSync(file.path, saveTo);
+    console.log(saveTo);
   });
 
   // parse the form
