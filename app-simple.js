@@ -84,7 +84,7 @@ app.post('/blog/new', function(req, res) {
         body = val;
         break;
       default:
-        console.log("in form on event");
+        console.log("In form on event");
     }
     return;
 
