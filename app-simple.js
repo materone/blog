@@ -67,7 +67,8 @@ app.post('/blog/new', function(req, res) {
     //debugger
     articleProvider.save({
       title: title,
-      body: body
+      body: body,
+      image:image
     }, function(error, docs) {
       res.redirect('/')
     });
@@ -99,7 +100,7 @@ app.post('/blog/new', function(req, res) {
     image.size = 0;
     part.on('data', function(buf) {
       image.size += buf.length;
-      console.log('iii:'+buf.length);
+      console.log('iii:' + buf.length);
       //var newPath = __dirname + "/uploads/"+part.filename;
       //fs.writeFile(newPath, buf, function(err) {
       //  console.log(err);
@@ -108,13 +109,20 @@ app.post('/blog/new', function(req, res) {
   });
 
   // listen on part event for image file
-  form.on('file', function(name,file) {
+  form.on('file', function(name, file) {
+    +
     console.log(name);
     console.log(file.path);
     console.log(file.originalFilename);
     console.log(file.size);
-    var saveTo = __dirname + "/uploads/"+file.originalFilename;
-    if(file.size > 0)fs.renameSync(file.path, saveTo);
+    var saveTo = __dirname + "/public/uploads/" + file.originalFilename;
+    if (file.size > 0) {
+      fs.renameSync(file.path, saveTo);
+      image = {};
+      image.filename = file.path;
+      image.size = file.size;
+      image.url = "/uploads/" + file.originalFilename;
+    }
     console.log(saveTo);
   });
 
@@ -124,7 +132,7 @@ app.post('/blog/new', function(req, res) {
 });
 
 app.get('/blog/:id', function(req, res) {
-  
+
   articleProvider.findById(req.params.id, function(error, article) {
     res.render('blog_show.jade', {
       title: article.title,

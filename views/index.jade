@@ -18,4 +18,6 @@ block content
                   input(type="checkbox", id="delart" name="id" value=article._id.toHexString()) 
           div.created_at= article.created_at
           div.body= article.body
+          //- if (article.image.url)
+          //  img(src = article.image.url)
     input(type="submit",name="Delete",value="Delete",id="delbtn",)
