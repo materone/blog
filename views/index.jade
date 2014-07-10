@@ -3,7 +3,9 @@ extend layout
 block content
   h1= title
   a(href="/blog/new")!= "New"
+  p
   form( method="post" action="/blog/del")
+    input(type="submit",name="Delete",value="Delete",id="delbtn",align="right")
     #articles
       - each article in articles
         div.article
@@ -16,4 +18,4 @@ block content
                   input(type="checkbox", id="delart" name="id" value=article._id.toHexString()) 
           div.created_at= article.created_at
           div.body= article.body
-      input(type="submit",name="Delete",value="Delete",id="delbtn",)
+    input(type="submit",name="Delete",value="Delete",id="delbtn",)

@@ -59,7 +59,7 @@ app.post('/blog/new', function(req, res) {
     console.log(err);
   });
   form.on('close', function() {
-    if (!image) {
+    if (!image && typeof(image) != "undefined") {
       console.log(format('\nuploaded %s (%d Kb) as %s', image.filename, image.size / 1024 | 0, title));
     } else {
       console.log("no image upload");
@@ -114,7 +114,7 @@ app.post('/blog/new', function(req, res) {
     console.log(file.originalFilename);
     console.log(file.size);
     var saveTo = __dirname + "/uploads/"+file.originalFilename;
-    fs.renameSync(file.path, saveTo);
+    if(file.size > 0)fs.renameSync(file.path, saveTo);
     console.log(saveTo);
   });
 

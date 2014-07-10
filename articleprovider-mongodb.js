@@ -87,18 +87,24 @@ ArticleProvider.prototype.removeById = function(id, callback) {
         for (var i = 0; i < id.length; i++) {
           ids[i] = {};
           ids[i]._id = article_collection.db.bson_serializer.ObjectID.createFromHexString(id[i]);
+          article_collection.remove(ids[i], {
+            w: 1
+          }, function(err, numberOfRemovedDocs) {
+            callback(err, numberOfRemovedDocs);
+          });
         }
       } else {
         ids = {
           _id: article_collection.db.bson_serializer.ObjectID.createFromHexString(id)
         };
+        article_collection.remove(ids, {
+          w: 1
+        }, function(err, numberOfRemovedDocs) {
+          callback(err, numberOfRemovedDocs);
+        });
       }
       console.log(ids);
-      article_collection.remove(ids, {
-        w: 1
-      }, function(err, numberOfRemovedDocs) {
-        callback(err, numberOfRemovedDocs);
-      });
+
     }
     callback(error);
   });
