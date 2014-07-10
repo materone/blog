@@ -124,12 +124,20 @@ app.post('/blog/new', function(req, res) {
 });
 
 app.get('/blog/:id', function(req, res) {
+  
   articleProvider.findById(req.params.id, function(error, article) {
     res.render('blog_show.jade', {
       title: article.title,
       article: article
     });
   });
+});
+
+app.post('/blog/del', function(req, res) {
+  articleProvider.removeById(req.param('id'), function(error, article) {
+    console.log(error);
+  });
+  res.redirect("/");
 });
 
 app.post('/blog/addComment', function(req, res) {
