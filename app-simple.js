@@ -68,7 +68,7 @@ app.post('/blog/new', function(req, res) {
     articleProvider.save({
       title: title,
       body: body,
-      image:image
+      image: image
     }, function(error, docs) {
       res.redirect('/')
     });
@@ -100,7 +100,7 @@ app.post('/blog/new', function(req, res) {
     image.size = 0;
     part.on('data', function(buf) {
       image.size += buf.length;
-      console.log('iii:' + buf.length);
+      //console.log('iii:' + buf.length);
       //var newPath = __dirname + "/uploads/"+part.filename;
       //fs.writeFile(newPath, buf, function(err) {
       //  console.log(err);
@@ -111,7 +111,7 @@ app.post('/blog/new', function(req, res) {
   // listen on part event for image file
   form.on('file', function(name, file) {
     +
-    console.log(name);
+      console.log(name);
     console.log(file.path);
     console.log(file.originalFilename);
     console.log(file.size);
@@ -142,8 +142,17 @@ app.get('/blog/:id', function(req, res) {
 });
 
 app.post('/blog/del', function(req, res) {
-  articleProvider.removeById(req.param('id'), function(error, article) {
-    console.log(error);
+  articleProvider.removeById(req.param('id'), function(error, image) {
+    console.log("2R-->"+image);
+    if (error) console.log(error);
+    //remove image file
+    if (image.url) {
+      var imgFilePath = __dirname + "/public" + image.url;
+      fs.unlink(imgFilePath, function(err) {
+        if (err) throw err;
+        console.log('successfully deleted %s',image.url);
+      });
+    }
   });
   res.redirect("/");
 });

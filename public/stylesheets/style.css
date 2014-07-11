@@ -15,11 +15,14 @@ h1 {
   text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;
 }
+img {
+  max-width: 500px;
+}
 #articles {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  width: 320px;
+  width: 500px;
 }
 #articles .article {
   margin: 20px;
@@ -42,7 +45,7 @@ h1 {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  width: 490px;
+  width: 500px;
 }
 .article .title {
   margin-top: 20px;
@@ -53,7 +56,7 @@ h1 {
   white-space: pre-wrap;
 }
 .article input[type =text] {
-  width: 490px;
+  width: 500px;
   text-align: left;
 }
 .article input[type =button],
@@ -62,7 +65,7 @@ h1 {
   margin-left: 440px;
 }
 .article textarea {
-  width: 490px;
+  width: 500px;
   height: 90px;
 }
 .article .body {

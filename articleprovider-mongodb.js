@@ -78,35 +78,53 @@ ArticleProvider.prototype.save = function(articles, callback) {
 
 ArticleProvider.prototype.removeById = function(id, callback) {
   console.log('Type of id :%s, Value is :%s', typeof(id), id);
+  var image = {};
   this.getCollection(function(error, article_collection) {
     if (typeof(id) != "undefined") {
-      //debugger
+      debugger
       var ids;
       if (typeof(id) == "object") {
         ids = new Array(id.length);
         for (var i = 0; i < id.length; i++) {
           ids[i] = {};
           ids[i]._id = article_collection.db.bson_serializer.ObjectID.createFromHexString(id[i]);
+          //get image path
+          article_collection.findOne(ids[i], function(error, result) {
+            console.log("-->" + result);
+            if (error) callback(error)
+            else image = result.image;
+          });
+          //remove the artical
           article_collection.remove(ids[i], {
             w: 1
           }, function(err, numberOfRemovedDocs) {
-            callback(err, numberOfRemovedDocs);
+            image.numberOfRemovedDocs = numberOfRemovedDocs;
+            if (error)callback(err, image);
           });
         }
       } else {
         ids = {
           _id: article_collection.db.bson_serializer.ObjectID.createFromHexString(id)
         };
+        //get image path
+        article_collection.findOne(ids, function(error, result) {
+          console.log("R-->" + result);
+          console.log("I-->" + result.image.url);
+          if (error) callback(error)
+          else image = result.image;
+        });
+        //remove artical record
         article_collection.remove(ids, {
           w: 1
         }, function(err, numberOfRemovedDocs) {
-          callback(err, numberOfRemovedDocs);
+          image.numberOfRemovedDocs = numberOfRemovedDocs;
+          callback(err, image);
         });
       }
       console.log(ids);
-
     }
-    callback(error);
+    console.log("1R-->" + image);
+    callback(error, image);
   });
 };
 
