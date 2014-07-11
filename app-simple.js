@@ -142,18 +142,23 @@ app.get('/blog/:id', function(req, res) {
 });
 
 app.post('/blog/del', function(req, res) {
-  articleProvider.removeById(req.param('id'), function(error, image) {
-    console.log("2R-->"+image);
+  articleProvider.removeById(req.param('id'), function(error, images) {
+    console.log("MainR-->" + images);
     if (error) console.log(error);
     //remove image file
-    if (image.url) {
-      var imgFilePath = __dirname + "/public" + image.url;
-      fs.unlink(imgFilePath, function(err) {
-        if (err) throw err;
-        console.log('successfully deleted %s',image.url);
-      });
-    }
+    images.forEach(function(image) {
+      console.log("Loop:");
+      console.log( image);
+      if (image.url) {
+        var imgFilePath = __dirname + "/public" + image.url;
+        fs.unlink(imgFilePath, function(err) {
+          if (err) throw err;
+          console.log('successfully deleted %s', image.url);
+        });
+      }
+    });
   });
+  console.log("Done in post del");
   res.redirect("/");
 });
 

@@ -78,10 +78,11 @@ ArticleProvider.prototype.save = function(articles, callback) {
 
 ArticleProvider.prototype.removeById = function(id, callback) {
   console.log('Type of id :%s, Value is :%s', typeof(id), id);
+  var images = [];
   var image = {};
-  this.getCollection(function(error, article_collection) {
-    if (typeof(id) != "undefined") {
-      debugger
+  if (typeof(id) != "undefined") {
+    this.getCollection(function(error, article_collection) {
+      //debugger
       var ids;
       if (typeof(id) == "object") {
         ids = new Array(id.length);
@@ -90,16 +91,21 @@ ArticleProvider.prototype.removeById = function(id, callback) {
           ids[i]._id = article_collection.db.bson_serializer.ObjectID.createFromHexString(id[i]);
           //get image path
           article_collection.findOne(ids[i], function(error, result) {
-            console.log("-->" + result);
+            console.log(i + "R-->" + result);
+            console.log(i + "I-->" + result.image.url);
             if (error) callback(error)
-            else image = result.image;
-          });
-          //remove the artical
-          article_collection.remove(ids[i], {
-            w: 1
-          }, function(err, numberOfRemovedDocs) {
-            image.numberOfRemovedDocs = numberOfRemovedDocs;
-            if (error)callback(err, image);
+            else {
+              image = result.image;
+              //images[i] = image;
+            }
+            //remove the artical
+            article_collection.remove(ids[i], {
+              w: 1
+            }, function(err, numberOfRemovedDocs) {
+              image.numberOfRemovedDocs = numberOfRemovedDocs;
+              images[i] = image;
+              callback(err, images);
+            });
           });
         }
       } else {
@@ -111,21 +117,28 @@ ArticleProvider.prototype.removeById = function(id, callback) {
           console.log("R-->" + result);
           console.log("I-->" + result.image.url);
           if (error) callback(error)
-          else image = result.image;
+          else {
+            image = result.image;
+            //images[0] = image;
+          } //remove artical record         
+          article_collection.remove(ids, {
+            w: 1
+          }, function(err, numberOfRemovedDocs) {
+            image.numberOfRemovedDocs = numberOfRemovedDocs;
+            images[0] = image;
+            console.log("Del-->" + numberOfRemovedDocs);
+            console.log("Del Image-->" + image);
+            console.log("Del Images-->" + images);
+            callback(err, images);
+          });
         });
-        //remove artical record
-        article_collection.remove(ids, {
-          w: 1
-        }, function(err, numberOfRemovedDocs) {
-          image.numberOfRemovedDocs = numberOfRemovedDocs;
-          callback(err, image);
-        });
+
       }
-      console.log(ids);
-    }
-    console.log("1R-->" + image);
-    callback(error, image);
-  });
+    });
+  } else {
+    console.log("No Paramet ID");
+    callback(error, images);
+  }
 };
 
 ArticleProvider.prototype.addCommentToArticle = function(articleId, comment, callback) {
