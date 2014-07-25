@@ -115,16 +115,18 @@ ArticleProvider.prototype.removeById = function(id, callback) {
         //get image path
         article_collection.findOne(ids, function(error, result) {
           console.log("R-->" + result);
-          console.log("I-->" + result.image.url);
           if (error) callback(error)
           else {
             image = result.image;
+            console.log("R1-->" + result);
+            if(image != null)console.log("I-->" + result.image.url);
             //images[0] = image;
           } //remove artical record         
           article_collection.remove(ids, {
             w: 1
           }, function(err, numberOfRemovedDocs) {
-            image.numberOfRemovedDocs = numberOfRemovedDocs;
+            console.log("R2-->" + result);
+            if(image != null)image.numberOfRemovedDocs = numberOfRemovedDocs;
             images[0] = image;
             console.log("Del-->" + numberOfRemovedDocs);
             console.log("Del Image-->" + image);

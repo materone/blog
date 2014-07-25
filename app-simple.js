@@ -149,7 +149,7 @@ app.post('/blog/del', function(req, res) {
     images.forEach(function(image) {
       console.log("Loop:");
       console.log( image);
-      if (image.url) {
+      if (image!=null && image.url) {
         var imgFilePath = __dirname + "/public" + image.url;
         fs.unlink(imgFilePath, function(err) {
           if (err) throw err;
