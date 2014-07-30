@@ -87,27 +87,40 @@ ArticleProvider.prototype.removeById = function(id, callback) {
       if (typeof(id) == "object") {
         ids = new Array(id.length);
         for (var i = 0; i < id.length; i++) {
-          ids[i] = {};
-          ids[i]._id = article_collection.db.bson_serializer.ObjectID.createFromHexString(id[i]);
-          //get image path
-          article_collection.findOne(ids[i], function(error, result) {
-            console.log(i + "R-->" + result);
-            console.log(i + "I-->" + result.image.url);
-            if (error) callback(error)
-            else {
-              image = result.image;
-              //images[i] = image;
-            }
-            //remove the artical
-            article_collection.remove(ids[i], {
-              w: 1
-            }, function(err, numberOfRemovedDocs) {
-              image.numberOfRemovedDocs = numberOfRemovedDocs;
-              images[i] = image;
-              callback(err, images);
-            });
-          });
+          console.log("R index:" + i);
+          //ids[i] = {};
+          ids[i] = article_collection.db.bson_serializer.ObjectID.createFromHexString(id[i]);
         }
+
+        var qStmt = {
+          "_id": {
+            $in: ids
+          }
+        };
+
+        //get image path
+        article_collection.find(qStmt).toArray(function(error, result) {
+          for (var i = 0; i < result.length; i++) {
+            console.log("MR-->" + result[i]._id.toHexString());
+            if (error) callback(error)
+            if (result[i].image != null && result[i].image.url != null) {
+              console.log(i + "I-->" + result[i].image.url);
+              image = result[i].image;
+              images[i] = image;
+            }
+          };
+        });
+        //remove the artical
+        //debugger
+        //replacy ids[i] with result
+        article_collection.remove(qStmt, {
+          w: 1
+        }, function(err, numberOfRemovedDocs) {
+          //if (image != null) image.numberOfRemovedDocs = numberOfRemovedDocs;
+          //images = image;
+          console.log("MR Count-->" + numberOfRemovedDocs);
+          callback(err, images);
+        });
       } else {
         ids = {
           _id: article_collection.db.bson_serializer.ObjectID.createFromHexString(id)
@@ -119,14 +132,14 @@ ArticleProvider.prototype.removeById = function(id, callback) {
           else {
             image = result.image;
             console.log("R1-->" + result);
-            if(image != null)console.log("I-->" + result.image.url);
+            if (image != null) console.log("I-->" + result.image.url);
             //images[0] = image;
           } //remove artical record         
           article_collection.remove(ids, {
             w: 1
           }, function(err, numberOfRemovedDocs) {
             console.log("R2-->" + result);
-            if(image != null)image.numberOfRemovedDocs = numberOfRemovedDocs;
+            if (image != null) image.numberOfRemovedDocs = numberOfRemovedDocs;
             images[0] = image;
             console.log("Del-->" + numberOfRemovedDocs);
             console.log("Del Image-->" + image);

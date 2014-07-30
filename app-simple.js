@@ -146,9 +146,8 @@ app.post('/blog/del', function(req, res) {
     console.log("MainR-->" + images);
     if (error) console.log(error);
     //remove image file
-    images.forEach(function(image) {
-      console.log("Loop:");
-      console.log( image);
+    if(images != null) images.forEach(function(image) {
+      console.log("Loop:" + image);
       if (image!=null && image.url) {
         var imgFilePath = __dirname + "/public" + image.url;
         fs.unlink(imgFilePath, function(err) {
