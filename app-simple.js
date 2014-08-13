@@ -40,7 +40,15 @@ app.get('/', function(req, res) {
       articles: docs
     });
   });
-})
+});
+
+app.get('/index.json', function(req, res) {
+  //debugger
+  articleProvider.findAll(function(errors, docs) {
+    res.type('text/json');
+    res.json(docs);
+  });
+});
 
 app.get('/blog/new', function(req, res) {
   res.render('blog_new.jade', {
@@ -110,8 +118,7 @@ app.post('/blog/new', function(req, res) {
 
   // listen on part event for image file
   form.on('file', function(name, file) {
-    +
-      console.log(name);
+    console.log(name);
     console.log(file.path);
     console.log(file.originalFilename);
     console.log(file.size);
