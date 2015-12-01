@@ -10,7 +10,7 @@ It is a pilot project , that use mongod db and express frame work,implement func
 http://en.blog.guylhem.net/post/88201449689/running-qemu-with-tap0-and-nat-under-osx-10-9-maverick
 
   ```yaml
-  ---
+
       # Builtin values
       references:
           - references.md
@@ -37,5 +37,5 @@ http://en.blog.guylhem.net/post/88201449689/running-qemu-with-tap0-and-nat-under
           - wikilinks
           - admonition
           - codehilite(guess_lang=False,pygments_style=github)
-  ---
+
   ```
