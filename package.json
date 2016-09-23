@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www-b"
   },
   "dependencies": {
     "express": "~4.2.0",
@@ -11,8 +11,10 @@
     "morgan": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
-    "debug": "~0.7.4",
     "jade": "~1.3.0",
+    "debug": "~0.7.4",
+    "multiparty": "~4.1",
+    "mongodb": "1.4.8",
     "stylus": "0.42.3"
   }
 }
